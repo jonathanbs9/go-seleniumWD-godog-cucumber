@@ -2,46 +2,47 @@ package main
 
 import (
 	"fmt"
-
 	"github.com/cucumber/godog"
 	"github.com/jonathanbs9/go-seleniumWD-godog-cucumber/support"
 	"github.com/tebeka/selenium"
+	"regexp"
+	"strings"
 )
 
 var Driver selenium.WebDriver
 
-func queAccedoALaPaginaPrincipal() error {
+func queAccediALaPaginaPrincipal() error {
 	Driver.Get("https://avalith.net/webmail")
 	return nil
 }
 
-func hagoLoginCon(email, contraseña string) error {
+func hagoElLoginConY(email, contraseña string) error {
 	campoEmail, err := Driver.FindElement(selenium.ByID, "user")
 
 	if err != nil {
-		fmt.Errorf("Error  |  ", err.Error())
+		fmt.Println("Error  |  ", err.Error())
 	}
 	campoEmail.SendKeys(email)
 
 	campoContraseña, err := Driver.FindElement(selenium.ByID, "pass")
 	if err != nil {
-		fmt.Errorf("Error  |  ", err.Error())
+		fmt.Println("Error  |  ", err.Error())
 	}
 	campoContraseña.SendKeys(contraseña)
 
 	botonIniciarSesion, err := Driver.FindElement(selenium.ByID, "login_submit")
 	if err != nil {
-		fmt.Errorf("Error  |  ", err.Error())
+		fmt.Println("Error  |  ", err.Error())
 	}
 	botonIniciarSesion.Click()
 
 	return nil
 }
 
-func autenticacionExitosa() (err error) {
+func estoyAutenticadoConXito() (err error) {
 	spanEmail, err := Driver.FindElement(selenium.ByClassName, "username")
 	if err != nil {
-		fmt.Errorf("Error  |  ", err.Error())
+		fmt.Println("Error  |  ", err.Error())
 	}
 
 	email, _ := spanEmail.Text()
@@ -53,31 +54,46 @@ func autenticacionExitosa() (err error) {
 	return nil
 }
 
-func devuelvoElSiguienteMensaje(mensaje string) error {
+func deboVerElSiguienteMensaje(mensaje string) error {
 	divAlerta, err := Driver.FindElement(selenium.ByClassName, "error-notice")
 	if err != nil {
 		return fmt.Errorf("Error al validar mensaje ! ")
 	}
 
 	alerta, _ := divAlerta.Text()
-	if alerta != "El inicio de sesión no es válido." {
-		return fmt.Errorf("Error  al validar texto del mensaje")
+	if alerta != mensaje {
+		return fmt.Errorf("Esperado: %v  | Obtenido: %v", mensaje, alerta)
 	}
 
 	return nil
 }
 
-func FeatureContext(s *godog.ScenarioContext) {
-	s.Step(`^Que accedo a la pagina principal$`, queAccedoALaPaginaPrincipal)
-	s.Step(`^hago login con "([^"]*)" y "([^"]*)"$`, hagoLoginCon)
-	s.Step(`^Estoy autenticado exitosamente$`, autenticacionExitosa)
-	s.Step(`^Debo ver el siguiente mensaje "([^"]*)"$`, devuelvoElSiguienteMensaje)
+func InitializeScenario(s *godog.ScenarioContext) {
+	s.Step(`^Que accedo a la pagina principal$`, queAccediALaPaginaPrincipal)
+	s.Step(`^hago login con "([^"]*)" y "([^"]*)"$`, hagoElLoginConY)
+	s.Step(`^Estoy autenticado exitosamente$`, estoyAutenticadoConXito)
+	s.Step(`^Debo ver el siguiente mensaje "([^"]*)"$`, deboVerElSiguienteMensaje)
 
-	s.BeforeScenario(func(interface{}) {
+	s.BeforeScenario(func(*godog.Scenario) {
 		Driver = support.WDInit()
 	})
 
-	s.AfterScenario(func(i interface{}, e error) {
-		Driver.Quit()
+	s.AfterScenario(func(s *godog.Scenario, err error) {
+		//sc := s.(*gherkin.RuleTypeScenario.Name())
+		rgex := regexp.MustCompile("[^0-9a-zA-Z]+")
+		fileName := strings.ToLower(rgex.ReplaceAllString(s.Name, "_"))
+		screenshot , _ := Driver.Screenshot()
+
+		support.SaveImage(screenshot,fileName)
+
 	})
+
+	/*s.AfterScenario(func(i interface{}, e error) {
+		sc := i.(*gherkin.Scenario)
+		rgex := regexp.MustCompile("[^0-9a-zA-Z]+")
+		fileName := strings.ToLower(rgex.ReplaceAllString(sc.Name, "_"))
+		screenshot, _ := Driver.Screenshot()
+
+		support.SaveImage(screenshot, fileName)
+	})*/
 }
