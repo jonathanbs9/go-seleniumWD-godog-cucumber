@@ -2,17 +2,22 @@ package main
 
 import (
 	"fmt"
+	"log"
+	"regexp"
+	"strings"
+
 	"github.com/cucumber/godog"
 	"github.com/jonathanbs9/go-seleniumWD-godog-cucumber/support"
 	"github.com/tebeka/selenium"
-	"regexp"
-	"strings"
 )
 
-var Driver selenium.WebDriver
+var (
+	Driver selenium.WebDriver
+)
 
 func queAccediALaPaginaPrincipal() error {
-	Driver.Get("https://avalith.net/webmail")
+	Driver.Get("https://amanti.websitewelcome.com:2096/")
+	log.Println("Accedo pagina principal -> Driver.Get() ")
 	return nil
 }
 
@@ -29,6 +34,7 @@ func hagoElLoginConY(email, contraseña string) error {
 		fmt.Println("Error  |  ", err.Error())
 	}
 	campoContraseña.SendKeys(contraseña)
+	log.Println("Campo email : ", campoEmail, " campo contreaseña: ", campoContraseña)
 
 	botonIniciarSesion, err := Driver.FindElement(selenium.ByID, "login_submit")
 	if err != nil {
@@ -69,31 +75,33 @@ func deboVerElSiguienteMensaje(mensaje string) error {
 }
 
 func InitializeScenario(s *godog.ScenarioContext) {
-	s.Step(`^Que accedo a la pagina principal$`, queAccediALaPaginaPrincipal)
-	s.Step(`^hago login con "([^"]*)" y "([^"]*)"$`, hagoElLoginConY)
-	s.Step(`^Estoy autenticado exitosamente$`, estoyAutenticadoConXito)
-	s.Step(`^Debo ver el siguiente mensaje "([^"]*)"$`, deboVerElSiguienteMensaje)
-
 	s.BeforeScenario(func(*godog.Scenario) {
 		Driver = support.WDInit()
+		Driver.Get("https://amanti.websitewelcome.com:2096/")
+
+		s.Step(`^Que accedo a la pagina principal$`, queAccediALaPaginaPrincipal)
+		s.Step(`^hago login con "([^"]*)" y "([^"]*)"$`, hagoElLoginConY)
+		s.Step(`^Estoy autenticado exitosamente$`, estoyAutenticadoConXito)
+		s.Step(`^Debo ver el siguiente mensaje "([^"]*)"$`, deboVerElSiguienteMensaje)
 	})
 
 	s.AfterScenario(func(s *godog.Scenario, err error) {
 		//sc := s.(*gherkin.RuleTypeScenario.Name())
 		rgex := regexp.MustCompile("[^0-9a-zA-Z]+")
 		fileName := strings.ToLower(rgex.ReplaceAllString(s.Name, "_"))
-		screenshot , _ := Driver.Screenshot()
-
-		support.SaveImage(screenshot,fileName)
-
-	})
-
-	/*s.AfterScenario(func(i interface{}, e error) {
-		sc := i.(*gherkin.Scenario)
-		rgex := regexp.MustCompile("[^0-9a-zA-Z]+")
-		fileName := strings.ToLower(rgex.ReplaceAllString(sc.Name, "_"))
 		screenshot, _ := Driver.Screenshot()
 
 		support.SaveImage(screenshot, fileName)
-	})*/
+
+	})
+
 }
+
+/*s.AfterScenario(func(i interface{}, e error) {
+	sc := i.(*gherkin.Scenario)
+	rgex := regexp.MustCompile("[^0-9a-zA-Z]+")
+	fileName := strings.ToLower(rgex.ReplaceAllString(sc.Name, "_"))
+	screenshot, _ := Driver.Screenshot()
+
+	support.SaveImage(screenshot, fileName)
+})*/

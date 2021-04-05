@@ -12,27 +12,51 @@ import (
 	"github.com/tebeka/selenium"
 )
 
-var driver selenium.WebDriver
+var (
+	driver           selenium.WebDriver
+	chromeDriverPath = `C:\Users\jonat\go\src\github.com\jonathanbs9\go-seleniumWD-godog-cucumber\resources\chromedriver.exe`
+	seleniumPath     = `C:\Users\jonat\go\src\github.com\jonathanbs9\go-seleniumWD-godog-cucumber\resources\selenium-server-standalone-3.141.59.jar`
+	port             = 4444
+)
 
 // WDInit retorna una instancia de WebDriver
 func WDInit() selenium.WebDriver {
 	var err error
-	//caps := selenium.Capabilities(map[string]interface{}{"browserName": "chrome"})
-	caps := selenium.Capabilities{"browserName": "chrome"}
 
-	driver, err = selenium.NewRemote(caps, "")
-	if err != nil {
-		fmt.Println("support/base |  Error al instanciar el driver de Selenium : ", err.Error())
-		log.Println(err.Error())
+	ops := []selenium.ServiceOption{
+		selenium.ChromeDriver(seleniumPath),
 	}
 
-	driver.SetImplicitWaitTimeout(time.Second * 10)
+	//service, err := selenium.NewSeleniumService(seleniumPath, port, ops...)
+	service, err := selenium.NewChromeDriverService(chromeDriverPath, port, ops...)
+	if err != nil {
+		log.Printf("Error starting the ChromeDriver server: %v", err)
+	}
+	//Delay service shutdown
+	defer service.Stop()
 
-	driver.ResizeWindow("note", 1280, 800)
+	log.Println("Service => ", service)
+
+	caps := selenium.Capabilities(map[string]interface{}{"browserName": "chrome"})
+	log.Println("Capabilities => ", caps)
+
+	driver, err := selenium.NewRemote(caps, "")
+	if err != nil {
+		log.Println("support/base |  Error al instanciar el driver de Selenium : ", err.Error())
+	}
+
+	/*if err := driver.Get("https://amanti.websitewelcome.com:2096/"); err != nil {
+		panic(err)
+	}*/
+
+	driver.SetImplicitWaitTimeout(time.Second * 100)
+
+	driver.ResizeWindow("note", 1800, 1200)
 
 	return driver
 }
 
+// Función para guarda  screenshot
 func SaveImage(foto []byte, name string) {
 	img, _, _ := image.Decode(bytes.NewReader(foto))
 
@@ -47,5 +71,4 @@ func SaveImage(foto []byte, name string) {
 		fmt.Println("Error | " + err.Error())
 		os.Exit(1)
 	}
-
 }
