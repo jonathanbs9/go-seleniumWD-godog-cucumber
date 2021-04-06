@@ -7,7 +7,6 @@ import (
 	"image/png"
 	"log"
 	"os"
-	"time"
 
 	"github.com/tebeka/selenium"
 )
@@ -41,17 +40,12 @@ func WDInit() selenium.WebDriver {
 	log.Println("Capabilities => ", caps)
 
 	driver, err := selenium.NewRemote(caps, "")
+	//driver.ResizeWindow("note", 1920, 1080)
 	if err != nil {
 		log.Println("support/base |  Error al instanciar el driver de Selenium : ", err.Error())
 	}
 
-	/*if err := driver.Get("https://amanti.websitewelcome.com:2096/"); err != nil {
-		panic(err)
-	}*/
-
-	driver.SetImplicitWaitTimeout(time.Second * 100)
-
-	driver.ResizeWindow("note", 1800, 1200)
+	//driver.SetImplicitWaitTimeout(time.Second * 100)
 
 	return driver
 }
