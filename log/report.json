@@ -1,0 +1,168 @@
+[
+    {
+        "uri": "features\\login.feature",
+        "id": "login",
+        "keyword": "Feature",
+        "name": "Login",
+        "description": "    Para que yo pueda acceder a mis tareas\n    Siendo un usuario\n    Puedo autenticarme con mis datos previamente registrados",
+        "line": 1,
+        "elements": [
+            {
+                "id": "login;login-de-usuario",
+                "keyword": "Scenario",
+                "name": "Login de Usuario",
+                "description": "",
+                "line": 7,
+                "type": "scenario",
+                "tags": [
+                    {
+                        "name": "@success",
+                        "line": 6
+                    }
+                ],
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "que accedi a la pagina principal",
+                        "line": 8,
+                        "match": {
+                            "location": "login_test.go:19"
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 2998324000
+                        }
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "hago el login con \"jonathans@avalith.net\" y \"123jonathans\"",
+                        "line": 9,
+                        "match": {
+                            "location": "login_test.go:25"
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 101930700
+                        }
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "estoy autenticado con éxito",
+                        "line": 10,
+                        "match": {
+                            "location": "login_test.go:48"
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 4507500500
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "login;contraseña-incorrecta",
+                "keyword": "Scenario",
+                "name": "Contraseña incorrecta",
+                "description": "",
+                "line": 13,
+                "type": "scenario",
+                "tags": [
+                    {
+                        "name": "@invalidpass",
+                        "line": 12
+                    }
+                ],
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "que accedi a la pagina principal",
+                        "line": 14,
+                        "match": {
+                            "location": "login_test.go:19"
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 3895320500
+                        }
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "hago el login con \"jonathans@avalith.net\" y \"callefalsa123\"",
+                        "line": 15,
+                        "match": {
+                            "location": "login_test.go:25"
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 105236700
+                        }
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "debo ver el siguiente mensaje \"El inicio de sesión no es válido.\"",
+                        "line": 16,
+                        "match": {
+                            "location": "login_test.go:69"
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 16775700
+                        }
+                    }
+                ]
+            },
+            {
+                "id": "login;email-inválido",
+                "keyword": "Scenario",
+                "name": "Email inválido",
+                "description": "",
+                "line": 19,
+                "type": "scenario",
+                "tags": [
+                    {
+                        "name": "@invalidemail",
+                        "line": 18
+                    }
+                ],
+                "steps": [
+                    {
+                        "keyword": "Given ",
+                        "name": "que accedi a la pagina principal",
+                        "line": 20,
+                        "match": {
+                            "location": "login_test.go:19"
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 2893366900
+                        }
+                    },
+                    {
+                        "keyword": "When ",
+                        "name": "hago el login con \"rucurucu@avalith.net\" y \"123jonathans\"",
+                        "line": 21,
+                        "match": {
+                            "location": "login_test.go:25"
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 102798600
+                        }
+                    },
+                    {
+                        "keyword": "Then ",
+                        "name": "debo ver el siguiente mensaje \"El inicio de sesión no es válido.\"",
+                        "line": 22,
+                        "match": {
+                            "location": "login_test.go:69"
+                        },
+                        "result": {
+                            "status": "passed",
+                            "duration": 15924600
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+]

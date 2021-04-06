@@ -12,7 +12,6 @@
 > godog  --format=cucumber > log/report.json`
 ```
 
-
 **Convertir reporte a formato html**
 
 ```
@@ -20,4 +19,13 @@ npm init
 
 npm install cucumber-html-reporter --save-dev
 ```
+
 creo archivo reporter.js
+
+Creo archivo log/report.json con el comando
+
+`$godog --format=cucumber > log/report.json`
+
+Para ver el reporte
+
+`node reporter.js`
