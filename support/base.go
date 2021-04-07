@@ -34,19 +34,17 @@ func WDInit() selenium.WebDriver {
 	//Delay service shutdown
 	defer service.Stop()
 
-	log.Println("Service => ", service)
+	//log.Println("Service => ", service)
 
 	caps := selenium.Capabilities(map[string]interface{}{"browserName": "chrome"})
-	log.Println("Capabilities => ", caps)
+	//log.Println("Capabilities => ", caps)
 
 	driver, err := selenium.NewRemote(caps, "")
-	//driver.ResizeWindow("note", 1920, 1080)
+
 	if err != nil {
 		log.Println("support/base |  Error al instanciar el driver de Selenium : ", err.Error())
 	}
-
-	//driver.SetImplicitWaitTimeout(time.Second * 100)
-
+	//driver.ResizeWindow("note", 1920, 1080)
 	return driver
 }
 
