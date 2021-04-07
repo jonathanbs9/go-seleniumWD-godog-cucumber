@@ -30,7 +30,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 2998324000
+                            "duration": 2897183400
                         }
                     },
                     {
@@ -42,7 +42,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 101930700
+                            "duration": 95732600
                         }
                     },
                     {
@@ -54,7 +54,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 4507500500
+                            "duration": 3920608000
                         }
                     }
                 ]
@@ -82,7 +82,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 3895320500
+                            "duration": 2936573500
                         }
                     },
                     {
@@ -94,7 +94,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 105236700
+                            "duration": 100924500
                         }
                     },
                     {
@@ -102,11 +102,11 @@
                         "name": "debo ver el siguiente mensaje \"El inicio de sesión no es válido.\"",
                         "line": 16,
                         "match": {
-                            "location": "login_test.go:69"
+                            "location": "login_test.go:68"
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 16775700
+                            "duration": 15685000
                         }
                     }
                 ]
@@ -134,7 +134,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 2893366900
+                            "duration": 2950742200
                         }
                     },
                     {
@@ -146,7 +146,7 @@
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 102798600
+                            "duration": 101681000
                         }
                     },
                     {
@@ -154,11 +154,11 @@
                         "name": "debo ver el siguiente mensaje \"El inicio de sesión no es válido.\"",
                         "line": 22,
                         "match": {
-                            "location": "login_test.go:69"
+                            "location": "login_test.go:68"
                         },
                         "result": {
                             "status": "passed",
-                            "duration": 15924600
+                            "duration": 15796200
                         }
                     }
                 ]

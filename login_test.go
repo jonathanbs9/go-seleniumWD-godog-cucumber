@@ -47,7 +47,6 @@ func hagoElLoginConY(email, contraseña string) error {
 
 func estoyAutenticadoConXito() (err error) {
 
-	//topRight, err := Driver.FindElement(selenium.ByClassName, "username")
 	topRight, err := Driver.FindElement(selenium.ByXPATH, "/html/body/div[1]/div[1]/div[2]/span")
 	if err != nil {
 		log.Println("Error  |  Al buscar el element: ", err.Error())
@@ -68,7 +67,6 @@ func estoyAutenticadoConXito() (err error) {
 
 func deboVerElSiguienteMensaje(mensaje string) error {
 
-	//divAlerta, err := Driver.FindElement(selenium.ByID, "login-status-message")
 	divAlerta, err := Driver.FindElement(selenium.ByXPATH, "//*[@id='login-status-message']")
 	if err != nil {
 		return fmt.Errorf("Error al validar mensaje ! ")
@@ -84,6 +82,7 @@ func deboVerElSiguienteMensaje(mensaje string) error {
 }
 
 func InitializeScenario(ctx *godog.ScenarioContext) {
+
 	ctx.BeforeScenario(func(*godog.Scenario) {
 		Driver = support.WDInit()
 
@@ -91,7 +90,7 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 		ctx.Step(`^hago el login con "([^"]*)" y "([^"]*)"$`, hagoElLoginConY)
 		Driver.SetImplicitWaitTimeout(time.Second * 10)
 		ctx.Step(`^estoy autenticado con éxito$`, estoyAutenticadoConXito)
-		Driver.SetImplicitWaitTimeout(time.Second * 10)
+		Driver.SetImplicitWaitTimeout(time.Second * 12)
 		ctx.Step(`^debo ver el siguiente mensaje "([^"]*)"$`, deboVerElSiguienteMensaje)
 	})
 
@@ -99,6 +98,7 @@ func InitializeScenario(ctx *godog.ScenarioContext) {
 		//sc := s.(*gherkin.RuleTypeScenario.Name())
 		rgex := regexp.MustCompile("[^0-9a-zA-Z]+")
 		fileName := strings.ToLower(rgex.ReplaceAllString(s.Name, "_"))
+
 		screenshot, _ := Driver.Screenshot()
 
 		support.SaveImage(screenshot, fileName)
